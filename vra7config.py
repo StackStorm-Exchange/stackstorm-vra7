@@ -6,15 +6,20 @@ from __future__ import print_function
 import getpass
 import subprocess
 
+try:  # Python 2
+    input = raw_input
+except NameError:  # Python 3 built-in
+    pass
+
 configfile = '/opt/stackstorm/configs/vra7.yaml'
 
-hostname = raw_input("hostname (vRA FQDN ex. cloud.company.local): ")
+hostname = input("hostname (vRA FQDN ex. cloud.company.local): ")
 
 # vRA SSl certification verification configuration
-verifyssl = raw_input("verify vRA SSL certificate (true/false) [false]: ")
+verifyssl = input("verify vRA SSL certificate (true/false) [false]: ")
 verifysslvalue = verifyssl or 'vsphere.local'
 
-username = raw_input("username: ")
+username = input("username: ")
 
 
 def pprompt():
@@ -29,7 +34,7 @@ while p1 != p2:
     p1, p2 = pprompt()
 
 # vRA tenant configuration
-tenant = raw_input("tenant name [vsphere.local]: ")
+tenant = input("tenant name [vsphere.local]: ")
 tenantvalue = tenant or 'vsphere.local'
 
 p = subprocess.Popen(["st2", "key", "set", "vra7_password", p1, "--encrypt"],
